@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -55,58 +56,91 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">💬 Chatbot Framework</h1>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl">
+        <h1 className="text-4xl font-bold text-center text-indigo-600 mb-8">
+          🤖 AI Chatbot
+        </h1>
 
-      {/* Upload Knowledge Section */}
-      <div className="w-full max-w-md bg-white p-4 rounded-lg shadow mb-6">
-        <textarea
-          className="w-full p-2 border rounded mb-2"
-          rows="4"
-          placeholder="Paste knowledge base content here..."
-          value={knowledge}
-          onChange={(e) => setKnowledge(e.target.value)}
-        />
-        <button
-          onClick={uploadKnowledge}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
-        >
-          Upload Knowledge
-        </button>
-      </div>
-
-      {/* Chat Section */}
-      <div className="w-full max-w-md bg-white rounded-lg shadow p-4 mb-4 overflow-y-auto h-96">
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            className={`mb-2 p-2 rounded ${
-              msg.sender === "user" ? "bg-blue-100 text-right" : "bg-gray-200 text-left"
-            }`}
+        {/* Upload Knowledge Section */}
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 transform hover:scale-[1.02] transition-transform duration-200">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Knowledge Base</h2>
+          <textarea
+            className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+            rows="4"
+            placeholder="Paste your knowledge base content here..."
+            value={knowledge}
+            onChange={(e) => setKnowledge(e.target.value)}
+          />
+          <button
+            onClick={uploadKnowledge}
+            className="mt-4 w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
-            {msg.text}
-          </div>
-        ))}
-        {loading && (
-          <div className="p-2 text-gray-400 italic text-center">Typing...</div>
-        )}
-      </div>
+            Upload Knowledge
+          </button>
+        </div>
 
-      <div className="flex w-full max-w-md">
-        <input
-          type="text"
-          className="flex-1 p-2 border rounded-l"
-          placeholder="Type your message..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyPress}
-        />
-        <button
-          onClick={sendMessage}
-          className="bg-blue-500 text-white px-4 rounded-r hover:bg-blue-600"
-        >
-          Send
-        </button>
+        {/* Chat Section */}
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 h-[500px] flex flex-col">
+          <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+            {messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[80%] p-4 rounded-2xl ${
+                    msg.sender === "user" 
+                      ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-br-none" 
+                      : "bg-gray-100 text-gray-800 rounded-bl-none"
+                  }`}
+                >
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="bg-gray-100 p-4 rounded-2xl rounded-bl-none">
+                  <div className="flex space-x-2">
+                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4 flex gap-2 items-stretch">
+            <input
+              type="text"
+              className="flex-1 p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+              placeholder="Type your message..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <button
+              onClick={sendMessage}
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center group"
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="h-6 w-6 transform group-hover:translate-x-1 transition-transform duration-200" 
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <path d="M22 2L11 13" />
+                <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
