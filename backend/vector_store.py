@@ -14,7 +14,7 @@ class VectorStore:
         ))
         
         # Initialize Gemini
-        genai.configure(api_key=os.getenv("AIzaSyB3snIx94ZZWXRngceMiGQZS9RGZZeF0fU"))
+        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
         self.model = genai.GenerativeModel('gemini-2.0-flash')
         
         # Create or get collection
